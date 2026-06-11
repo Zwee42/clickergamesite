@@ -9,6 +9,12 @@
 <body>
     <div class="game-container">
         <div class="left-panel">
+            <h2>Owned Upgrades</h2>
+            <div id="owned-upgrades" class="owned-upgrades"></div>
+        </div>
+
+        <div class="center-panel">
+            <div id="active-effects" class="active-effects"></div>
             <h1>Cookie Clicker</h1>
             <div class="score-board">
                 <p>Cookies: <span id="cookie-count">0</span></p>
@@ -18,45 +24,49 @@
                 <div class="cookie-glow"></div>
                 <div id="cursor-circle" class="cursor-circle"></div>
                 <div class="cookie-wrapper">
-                    
                     <button id="the-cookie" class="cookie-btn"><img src="cookiev3.png" alt="Cookie"></button>
                 </div>
             </div>
         </div>
-        
+
         <div class="right-panel">
-            <h2>Shop</h2>
-            <div id="shop">
-                <button id="buy-cursor" class="upgrade-btn">
-                    Cursor (cost: <span id="cursor-cost">15</span>) <br>
-                    <small>+1 cookie/sec</small> <br>
-                    Owned: <span id="cursor-owned">0</span>
-                </button>
-                <button id="buy-grandma" class="upgrade-btn" disabled>
-                    Grandma (cost: <span id="grandma-cost">100</span>) <br>
-                    <small>+5 cookies/sec</small> <br>
-                    Owned: <span id="grandma-owned">0</span>
-                </button>
-                <button id="buy-farm" class="upgrade-btn" disabled>
-                    Farm (cost: <span id="farm-cost">1100</span>) <br>
-                    <small>+8 cookies/sec</small> <br>
-                    Owned: <span id="farm-owned">0</span>
-                </button>
-                <button id="buy-mine" class="upgrade-btn" disabled>
-                    Mine (cost: <span id="mine-cost">12000</span>) <br>
-                    <small>+25 cookies/sec</small> <br>
-                    Owned: <span id="mine-owned">0</span>
-                </button>
-                <button id="buy-factory" class="upgrade-btn" disabled>
-                    Factory (cost: <span id="factory-cost">60000</span>) <br>
-                    <small>+100 cookies/sec</small> <br>
-                    Owned: <span id="factory-owned">0</span>
-                </button>
-                <button id="buy-bank" class="upgrade-btn" disabled>
-                    Bank (cost: <span id="bank-cost">250000</span>) <br>
-                    <small>+500 cookies/sec</small> <br>
-                    Owned: <span id="bank-owned">0</span>
-                </button>
+            <div class="tab-bar">
+                <button class="tab-btn tab-btn--active" data-tab="buildings">Buildings</button>
+                <button class="tab-btn" data-tab="upgrades">Upgrades</button>
+                <button class="tab-btn" data-tab="achievements">Ach.</button>
+                <button class="tab-btn" data-tab="stats">Stats</button>
+                <button class="tab-btn" data-tab="settings">Settings</button>
+            </div>
+
+            <div class="tab-content tab-content--active" id="tab-buildings">
+                <div class="bulk-bar">
+                    <button class="bulk-btn" data-mode="0">x1</button>
+                    <button class="bulk-btn" data-mode="1">x10</button>
+                    <button class="bulk-btn" data-mode="2">x100</button>
+                    <button class="bulk-btn" data-mode="3">Max</button>
+                </div>
+                <div id="shop"></div>
+                <div id="cps-breakdown" class="cps-breakdown"></div>
+                <button id="prestige-btn" class="upgrade-btn upgrade-btn--small upgrade-btn--special">Prestige (Reset)</button>
+            </div>
+
+            <div class="tab-content" id="tab-upgrades">
+                <div id="upgrade-shop"></div>
+            </div>
+
+            <div class="tab-content" id="tab-achievements">
+                <h3>Achievements</h3>
+                <div id="achievements-list" class="achievements-list"></div>
+            </div>
+
+            <div class="tab-content" id="tab-stats">
+                <h3>Statistics</h3>
+                <div id="stats-content" class="stats-content"></div>
+            </div>
+
+            <div class="tab-content" id="tab-settings">
+                <h3>Settings</h3>
+                <div id="settings-content" class="settings-content"></div>
             </div>
         </div>
     </div>

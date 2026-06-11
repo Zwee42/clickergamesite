@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #87CEEB; /* Sky blue */
+    background-color: #87CEEB;
     color: #333;
     margin: 0;
     padding: 0;
@@ -13,38 +13,89 @@ body {
 
 .game-container {
     display: flex;
-    width: 80vw;
-    max-width: 90%;
-    background-color: #FFF8DC; /* Cornsilk */
-    border: 5px solid #DEB887; /* Burlywood */
+    width: 90vw;
+    max-width: 1200px;
+    height: 90vh;
+    background-color: #FFF8DC;
+    border: 5px solid #DEB887;
     border-radius: 15px;
     box-shadow: 0 10px 20px rgba(0,0,0,0.2);
     overflow: hidden;
+    position: relative;
 }
 
+/* ===== LEFT PANEL ===== */
 .left-panel {
+    width: 220px;
+    min-width: 220px;
+    padding: 20px;
+    background-color: #FFE4B5;
+    border-right: 2px dashed #DEB887;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow-y: auto;
+}
+
+.left-panel h2 {
+    flex-shrink: 0;
+    margin: 0;
+}
+
+/* ===== CENTER PANEL ===== */
+.center-panel {
     flex: 1;
     padding: 40px;
     text-align: center;
-    border-right: 2px dashed #DEB887;
-    background-color: #FFE4B5; /* Moccasin */
+    background-color: #FFF8DC;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
 }
 
-.right-panel {
-    flex: 1;
-    padding: 40px;
-    background-color: #FFDAB9; /* Peachpuff */
+.active-effects {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 20;
 }
+
+.effect-badge {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    animation: badgePulse 1s ease-in-out infinite alternate;
+    white-space: nowrap;
+}
+
+@keyframes badgePulse {
+    0% { opacity: 0.8; transform: scale(1); }
+    100% { opacity: 1; transform: scale(1.05); }
+}
+
+.effect-badge--frenzy { background: #d4a017; box-shadow: 0 0 10px #d4a017; }
+.effect-badge--clickFrenzy { background: #ff6600; box-shadow: 0 0 10px #ff6600; }
+.effect-badge--clot { background: #881111; box-shadow: 0 0 10px #881111; }
+.effect-badge--special { background: #2d7a40; box-shadow: 0 0 10px #2d7a40; }
 
 .score-board {
     font-size: 24px;
-    margin-bottom: 30px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 #cookie-count {
     font-weight: bold;
     font-size: 36px;
-    color: #D2691E; /* Chocolate */
+    color: #D2691E;
     display: block;
     margin: 10px 0;
 }
@@ -52,15 +103,221 @@ body {
 .cookie-container {
     margin-top: 50px;
     position: relative;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
+/* ===== RIGHT PANEL ===== */
+.right-panel {
+    width: 320px;
+    min-width: 320px;
+    background-color: #FFDAB9;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.tab-bar {
+    display: flex;
+    flex-shrink: 0;
+    background: #DEB887;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 10px 4px;
+    border: none;
+    background: #DEB887;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    color: #5b3a1d;
+    transition: background 0.2s;
+}
+
+.tab-btn:hover {
+    background: #d4a87a;
+}
+
+.tab-btn--active {
+    background: #FFDAB9;
+    box-shadow: inset 0 -3px 0 #D2691E;
+}
+
+.tab-content {
+    display: none;
+    padding: 15px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.tab-content--active {
+    display: block;
+}
+
+/* ===== BULK BAR ===== */
+.bulk-bar {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+.bulk-btn {
+    flex: 1;
+    padding: 8px;
+    border: 2px solid #D2691E;
+    background: #FFE4B5;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #5b3a1d;
+    transition: all 0.2s;
+}
+
+.bulk-btn:hover {
+    background: #ffd699;
+}
+
+.bulk-btn--active {
+    background: #D2691E;
+    color: white;
+    border-color: #a0522d;
+}
+
+/* ===== BUILDING SHOP ===== */
+.upgrade-btn {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    background-color: #FF8C00;
+    border: 2px solid #D2691E;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    color: white;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.upgrade-icon {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.upgrade-btn:hover:not([disabled]) {
+    background-color: #FFA500;
+}
+
+.upgrade-btn[disabled] {
+    background-color: #A9A9A9;
+    border-color: #808080;
+    cursor: not-allowed;
+    color: #E0E0E0;
+}
+
+.upgrade-btn--small {
+    padding: 8px 12px;
+    font-size: 12px;
+    margin-bottom: 6px;
+}
+
+.upgrade-btn--danger {
+    background-color: #aa2222;
+    border-color: #771111;
+}
+
+.upgrade-btn--danger:hover {
+    background-color: #cc3333 !important;
+}
+
+.upgrade-btn--special {
+    background-color: #7c3aed;
+    border-color: #5b21b6;
+    margin-top: 12px;
+    justify-content: center;
+    text-align: center;
+}
+
+.upgrade-btn--special:hover {
+    background-color: #8b5cf6 !important;
+}
+
+/* ===== OWNED UPGRADES ===== */
+.owned-upgrades {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.upgrade-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.upgrade-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.upgrade-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+}
+
+.upgrade-box-icon {
+    border-radius: 4px;
+    transition: transform 0.15s;
+}
+
+.upgrade-box-icon:hover {
+    transform: scale(1.15);
+}
+
+.upgrade-mult {
+    font-size: 11px;
+    font-weight: bold;
+    color: #7c3aed;
+    background: rgba(124, 58, 237, 0.15);
+    padding: 2px 7px;
+    border-radius: 6px;
+    align-self: center;
+    white-space: nowrap;
+    border: 1px solid rgba(124, 58, 237, 0.3);
+}
+
+.owned-upgrades-empty {
+    color: #a0845a;
+    font-size: 14px;
+    text-align: center;
+    padding: 30px 10px;
+    font-style: italic;
+}
+
+/* ===== COOKIE ===== */
 .cookie-glow {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 260px;
-    height: 260px;
+    width: 300px;
+    height: 300px;
     background: radial-gradient(circle, rgba(255, 235, 100, 0.4) 0%, rgba(255, 255, 255, 0) 70%);
     transform: translate(-50%, -50%);
     z-index: 0;
@@ -93,24 +350,20 @@ body {
     height: 0;
     pointer-events: none;
     animation: spin 10s linear infinite;
-    z-index: 1; /* Cursors above cookie (or behind, depending on preference) */
+    z-index: 1;
 }
 
 @keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
 .visual-cursor {
     position: absolute;
-    width: 42px;
-    height: 42px;
-    margin-top: -21px;
-    margin-left: -21px;
+    width: 36px;
+    height: 36px;
+    margin-top: -18px;
+    margin-left: -18px;
     background-image: url('wand.png');
     background-repeat: no-repeat;
     background-position: center;
@@ -120,8 +373,8 @@ body {
 }
 
 .cookie-btn {
-    width: 120px;
-    height: 120px;
+    width: 160px;
+    height: 160px;
     position: relative;
     z-index: 2;
     border: none;
@@ -146,18 +399,7 @@ body {
     filter: drop-shadow(0px 6px 6px rgba(0, 0, 0, 0.6));
 }
 
-.click-popup {
-    position: absolute;
-    color: #fff6a5;
-    font-weight: bold;
-    font-size: 30px;
-    pointer-events: none;
-    user-select: none;
-    z-index: 1000;
-    animation: floatUp 1s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
-    text-shadow: 0px 2px 5px rgba(0, 0, 0, 0.8), 0px 0px 10px #ffcc33;
-}
-
+/* ===== STARS ===== */
 .star-burst {
     position: absolute;
     color: #fff6a5;
@@ -169,42 +411,155 @@ body {
     text-shadow: 0px 0px 10px rgba(255, 215, 0, 0.95), 0px 0px 4px rgba(255, 140, 0, 0.9);
 }
 
-@keyframes floatUp {
-    0% { transform: translateY(0) scale(1); opacity: 1; }
-    100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
-}
-
 @keyframes starBurst {
     0% { transform: translate(0, 0) scale(0.6) rotate(0deg); opacity: 1; }
     100% { transform: translate(var(--dx), var(--dy)) scale(1.7) rotate(180deg); opacity: 0; }
 }
 
-.upgrade-btn {
-    width: 100%;
-    padding: 15px;
-    margin-bottom: 15px;
-    background-color: #FF8C00; /* DarkOrange */
-    border: 2px solid #D2691E;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: bold;
+/* ===== GOLDEN COOKIE ===== */
+.golden-cookie {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: radial-gradient(circle at 35% 35%, #ffe44d, #d4a017);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    color: #fff;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 4px 12px rgba(0,0,0,0.3);
     cursor: pointer;
-    transition: background-color 0.2s;
-    color: white;
+    z-index: 10;
+    animation: goldenFloat 0.6s ease-in-out infinite alternate;
+    user-select: none;
 }
 
-.upgrade-btn:hover:not([disabled]) {
-    background-color: #FFA500;
+@keyframes goldenFloat {
+    0% { transform: translateY(0) scale(1); }
+    100% { transform: translateY(-8px) scale(1.05); }
 }
 
-.upgrade-btn[disabled] {
-    background-color: #A9A9A9;
-    border-color: #808080;
-    cursor: not-allowed;
-    color: #E0E0E0;
+.golden-cookie:hover {
+    box-shadow: 0 0 30px rgba(255, 215, 0, 1), 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.wrath-cookie {
+    background: radial-gradient(circle at 35% 35%, #cc3333, #881111);
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.wrath-cookie:hover {
+    box-shadow: 0 0 30px rgba(255, 0, 0, 1), 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.golden-popup {
+    position: fixed;
+    color: #ffd700;
+    font-size: 36px;
+    font-weight: bold;
+    pointer-events: none;
+    z-index: 1001;
+    animation: goldenPopup 1s ease-out forwards;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.9);
+}
+
+@keyframes goldenPopup {
+    0% { transform: translate(-50%, 0) scale(0.5); opacity: 1; }
+    100% { transform: translate(-50%, -80px) scale(1.5); opacity: 0; }
+}
+
+/* ===== EFFECT POPUP ===== */
+.effect-popup {
+    position: absolute;
+    font-size: 28px;
+    font-weight: bold;
+    pointer-events: none;
+    z-index: 1001;
+    animation: effectPopup 2s ease-out forwards;
+    text-shadow: 0 0 20px currentColor;
+    transform: translateX(-50%);
+}
+
+@keyframes effectPopup {
+    0% { transform: translateX(-50%) translateY(0) scale(0.5); opacity: 1; }
+    100% { transform: translateX(-50%) translateY(-120px) scale(1.5); opacity: 0; }
+}
+
+/* ===== CPS BREAKDOWN ===== */
+.cps-breakdown {
+    margin-top: 15px;
+    padding: 10px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 8px;
+    font-size: 12px;
+}
+
+.cps-row {
+    padding: 3px 0;
+    color: #5b3a1d;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.cps-row--total {
+    font-weight: bold;
+    border-bottom: none;
+    padding-top: 6px;
+    color: #D2691E;
+}
+
+/* ===== ACHIEVEMENTS ===== */
+.achievements-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.achievement {
+    padding: 8px 12px;
+    background: rgba(255,255,255,0.4);
+    border-radius: 6px;
+    font-size: 13px;
+    color: #888;
+}
+
+.achievement--unlocked {
+    background: rgba(255, 215, 0, 0.3);
+    color: #5b3a1d;
+    font-weight: bold;
+    border-left: 4px solid #ffd700;
+}
+
+/* ===== STATS ===== */
+.stats-content {
+    font-size: 13px;
+    line-height: 1.8;
+    color: #5b3a1d;
+}
+
+/* ===== SETTINGS ===== */
+.settings-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* ===== SHOP UPGRADE SECTION ===== */
+#upgrade-shop h3,
+#upgrade-shop h4 {
+    margin: 12px 0 8px;
+    color: #5b3a1d;
+    font-size: 14px;
+}
+
+#upgrade-shop h3 {
+    font-size: 16px;
+    border-bottom: 2px solid #DEB887;
+    padding-bottom: 4px;
 }
 
 small {
     font-weight: normal;
-    font-size: 14px;
+    font-size: 12px;
 }
