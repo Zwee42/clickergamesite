@@ -399,7 +399,7 @@ body {
     height: 36px;
     margin-top: -18px;
     margin-left: -18px;
-    background-image: url('img/wand.png');
+    background-image: url('/img/wand.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
@@ -481,7 +481,7 @@ body {
     position: absolute;
     width: 56px;
     height: 56px;
-    background: url('img/cookiev3golden.png') center/cover no-repeat;
+    background: url('/img/cookiev3golden.png') center/cover no-repeat;
     border-radius: 50%;
     cursor: pointer;
     z-index: 10;
