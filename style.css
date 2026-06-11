@@ -1,0 +1,210 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #87CEEB; /* Sky blue */
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    user-select: none;
+}
+
+.game-container {
+    display: flex;
+    width: 80vw;
+    max-width: 90%;
+    background-color: #FFF8DC; /* Cornsilk */
+    border: 5px solid #DEB887; /* Burlywood */
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    overflow: hidden;
+}
+
+.left-panel {
+    flex: 1;
+    padding: 40px;
+    text-align: center;
+    border-right: 2px dashed #DEB887;
+    background-color: #FFE4B5; /* Moccasin */
+}
+
+.right-panel {
+    flex: 1;
+    padding: 40px;
+    background-color: #FFDAB9; /* Peachpuff */
+}
+
+.score-board {
+    font-size: 24px;
+    margin-bottom: 30px;
+}
+
+#cookie-count {
+    font-weight: bold;
+    font-size: 36px;
+    color: #D2691E; /* Chocolate */
+    display: block;
+    margin: 10px 0;
+}
+
+.cookie-container {
+    margin-top: 50px;
+    position: relative;
+    display: inline-block;
+}
+
+.cookie-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 260px;
+    height: 260px;
+    background: radial-gradient(circle, rgba(255, 235, 100, 0.4) 0%, rgba(255, 255, 255, 0) 70%);
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    pointer-events: none;
+    animation: pulseGlow 4s infinite alternate;
+}
+
+@keyframes pulseGlow {
+    0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.6; }
+    100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+}
+
+.cookie-wrapper {
+    position: relative;
+    z-index: 2;
+    animation: floatCookie 5s ease-in-out infinite;
+}
+
+@keyframes floatCookie {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0px); }
+}
+
+.cursor-circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    animation: spin 10s linear infinite;
+    z-index: 1; /* Cursors above cookie (or behind, depending on preference) */
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.visual-cursor {
+    position: absolute;
+    width: 42px;
+    height: 42px;
+    margin-top: -21px;
+    margin-left: -21px;
+    background-image: url('wand.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    transition: transform 0.3s ease;
+    filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.5));
+}
+
+.cookie-btn {
+    width: 120px;
+    height: 120px;
+    position: relative;
+    z-index: 2;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: transform 0.05s ease-in-out, filter 0.05s ease-in-out;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    padding: 0;
+    filter: drop-shadow(0px 10px 10px rgba(0, 0, 0, 0.45));
+}
+
+.cookie-btn img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+}
+
+.cookie-btn:active {
+    transform: scale(0.9);
+    filter: drop-shadow(0px 6px 6px rgba(0, 0, 0, 0.6));
+}
+
+.click-popup {
+    position: absolute;
+    color: #fff6a5;
+    font-weight: bold;
+    font-size: 30px;
+    pointer-events: none;
+    user-select: none;
+    z-index: 1000;
+    animation: floatUp 1s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
+    text-shadow: 0px 2px 5px rgba(0, 0, 0, 0.8), 0px 0px 10px #ffcc33;
+}
+
+.star-burst {
+    position: absolute;
+    color: #fff6a5;
+    font-size: 28px;
+    pointer-events: none;
+    user-select: none;
+    z-index: 1000;
+    animation: starBurst 700ms ease-out forwards;
+    text-shadow: 0px 0px 10px rgba(255, 215, 0, 0.95), 0px 0px 4px rgba(255, 140, 0, 0.9);
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
+}
+
+@keyframes starBurst {
+    0% { transform: translate(0, 0) scale(0.6) rotate(0deg); opacity: 1; }
+    100% { transform: translate(var(--dx), var(--dy)) scale(1.7) rotate(180deg); opacity: 0; }
+}
+
+.upgrade-btn {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #FF8C00; /* DarkOrange */
+    border: 2px solid #D2691E;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    color: white;
+}
+
+.upgrade-btn:hover:not([disabled]) {
+    background-color: #FFA500;
+}
+
+.upgrade-btn[disabled] {
+    background-color: #A9A9A9;
+    border-color: #808080;
+    cursor: not-allowed;
+    color: #E0E0E0;
+}
+
+small {
+    font-weight: normal;
+    font-size: 14px;
+}

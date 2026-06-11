@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Clicker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="left-panel">
+            <h1>Cookie Clicker</h1>
+            <div class="score-board">
+                <p>Cookies: <span id="cookie-count">0</span></p>
+                <p>per second: <span id="cookies-per-second">0</span></p>
+            </div>
+            <div class="cookie-container">
+                <div class="cookie-glow"></div>
+                <div id="cursor-circle" class="cursor-circle"></div>
+                <div class="cookie-wrapper">
+                    
+                    <button id="the-cookie" class="cookie-btn"><img src="cookiev3.png" alt="Cookie"></button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="right-panel">
+            <h2>Shop</h2>
+            <div id="shop">
+                <button id="buy-cursor" class="upgrade-btn">
+                    Cursor (cost: <span id="cursor-cost">15</span>) <br>
+                    <small>+1 cookie/sec</small> <br>
+                    Owned: <span id="cursor-owned">0</span>
+                </button>
+                <button id="buy-grandma" class="upgrade-btn" disabled>
+                    Grandma (cost: <span id="grandma-cost">100</span>) <br>
+                    <small>+5 cookies/sec</small> <br>
+                    Owned: <span id="grandma-owned">0</span>
+                </button>
+                <button id="buy-farm" class="upgrade-btn" disabled>
+                    Farm (cost: <span id="farm-cost">1100</span>) <br>
+                    <small>+8 cookies/sec</small> <br>
+                    Owned: <span id="farm-owned">0</span>
+                </button>
+                <button id="buy-mine" class="upgrade-btn" disabled>
+                    Mine (cost: <span id="mine-cost">12000</span>) <br>
+                    <small>+25 cookies/sec</small> <br>
+                    Owned: <span id="mine-owned">0</span>
+                </button>
+                <button id="buy-factory" class="upgrade-btn" disabled>
+                    Factory (cost: <span id="factory-cost">60000</span>) <br>
+                    <small>+100 cookies/sec</small> <br>
+                    Owned: <span id="factory-owned">0</span>
+                </button>
+                <button id="buy-bank" class="upgrade-btn" disabled>
+                    Bank (cost: <span id="bank-cost">250000</span>) <br>
+                    <small>+500 cookies/sec</small> <br>
+                    Owned: <span id="bank-owned">0</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
