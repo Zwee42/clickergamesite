@@ -26,8 +26,8 @@ body {
 
 /* ===== LEFT PANEL ===== */
 .left-panel {
-    width: 220px;
-    min-width: 220px;
+    width: 300px;
+    min-width: 300px;
     padding: 20px;
     background-color: #FFE4B5;
     border-right: 2px dashed #DEB887;
@@ -210,6 +210,41 @@ body {
     flex-shrink: 0;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+.upgrade-icon::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.25) 45%, rgba(255,255,255,0.25) 55%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.upgrade-btn:hover .upgrade-icon::after {
+    opacity: 1;
+    animation: shimmer 1.2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+.upgrade-btn--flash {
+    animation: purchaseFlash 0.4s ease-out;
+}
+
+@keyframes purchaseFlash {
+    0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
+    50% { box-shadow: 0 0 30px 10px rgba(255, 215, 0, 0.3); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
 }
 
 .upgrade-btn:hover:not([disabled]) {
@@ -364,7 +399,7 @@ body {
     height: 36px;
     margin-top: -18px;
     margin-left: -18px;
-    background-image: url('wand.png');
+    background-image: url('img/wand.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
@@ -380,11 +415,12 @@ body {
     border: none;
     background: none;
     cursor: pointer;
-    transition: transform 0.05s ease-in-out, filter 0.05s ease-in-out;
+    transition: transform 0.1s ease-in-out, filter 0.1s ease-in-out;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
     padding: 0;
     filter: drop-shadow(0px 10px 10px rgba(0, 0, 0, 0.45));
+    perspective: 600px;
 }
 
 .cookie-btn img {
@@ -392,11 +428,20 @@ body {
     height: 100%;
     display: block;
     object-fit: contain;
+    transition: transform 0.15s ease-out;
+}
+
+.cookie-btn:hover img {
+    transform: rotate3d(1, 1, 0, 8deg) scale(1.04);
 }
 
 .cookie-btn:active {
     transform: scale(0.9);
     filter: drop-shadow(0px 6px 6px rgba(0, 0, 0, 0.6));
+}
+
+.cookie-btn:active img {
+    transform: rotate3d(1, 1, 0, 4deg) scale(0.95);
 }
 
 /* ===== STARS ===== */
@@ -416,24 +461,35 @@ body {
     100% { transform: translate(var(--dx), var(--dy)) scale(1.7) rotate(180deg); opacity: 0; }
 }
 
+/* ===== SPARKLE PARTICLES ===== */
+.golden-sparkle {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1002;
+    animation: sparkleFly 700ms ease-out forwards;
+    box-shadow: 0 0 6px currentColor;
+}
+
+@keyframes sparkleFly {
+    0% { transform: translate(0, 0) scale(1); opacity: 1; }
+    100% { transform: translate(var(--dx), var(--dy)) scale(0.2); opacity: 0; }
+}
+
 /* ===== GOLDEN COOKIE ===== */
 .golden-cookie {
     position: absolute;
-    width: 50px;
-    height: 50px;
-    background: radial-gradient(circle at 35% 35%, #ffe44d, #d4a017);
+    width: 56px;
+    height: 56px;
+    background: url('img/cookiev3golden.png') center/cover no-repeat;
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    color: #fff;
-    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 4px 12px rgba(0,0,0,0.3);
     cursor: pointer;
     z-index: 10;
     animation: goldenFloat 0.6s ease-in-out infinite alternate;
     user-select: none;
+    border: none;
+    outline: none;
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.9), 0 4px 12px rgba(0,0,0,0.3);
 }
 
 @keyframes goldenFloat {
@@ -442,16 +498,7 @@ body {
 }
 
 .golden-cookie:hover {
-    box-shadow: 0 0 30px rgba(255, 215, 0, 1), 0 4px 12px rgba(0,0,0,0.3);
-}
-
-.wrath-cookie {
-    background: radial-gradient(circle at 35% 35%, #cc3333, #881111);
-    box-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 4px 12px rgba(0,0,0,0.3);
-}
-
-.wrath-cookie:hover {
-    box-shadow: 0 0 30px rgba(255, 0, 0, 1), 0 4px 12px rgba(0,0,0,0.3);
+    box-shadow: 0 0 35px rgba(255, 215, 0, 1), 0 4px 12px rgba(0,0,0,0.3);
 }
 
 .golden-popup {
