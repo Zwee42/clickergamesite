@@ -14,8 +14,9 @@ import { buildingDefs } from './data';
 interface GameContextType {
   state: GameState;
   username: string;
-  setUsername: (name: string) => void;
-  login: () => Promise<void>;
+  loading: boolean;
+  login: (name: string) => Promise<void>;
+  logout: () => void;
   clickCookie: (event?: React.MouseEvent) => void;
   buyBuilding: (type: string) => void;
   buyClickUpgrade: (id: string) => void;
@@ -41,51 +42,81 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<GameState>(createInitialState());
   const [username, setUsername] = useState('');
   const [goldenTimer, setGoldenTimer] = useState<ReturnType<typeof setTimeout> | null>(null);
+  const [initialized, setInitialized] = useState(false);
   const stateRef = useRef(state);
+  const usernameRef = useRef(username);
   stateRef.current = state;
+  usernameRef.current = username;
 
-  const saveToServer = useCallback(async (s: GameState) => {
-    if (!username) return;
+  const saveToServer = useCallback(async (s: GameState, name: string) => {
+    if (!name) return;
     try {
       await fetch('/api/save', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, state: s }),
+        body: JSON.stringify({ username: name, state: s }),
       });
     } catch {}
-  }, [username]);
+  }, []);
 
   const loadFromServer = useCallback(async (name: string) => {
     try {
       const res = await fetch('/api/load?username=' + encodeURIComponent(name));
       if (res.ok) {
         const saved: GameState = await res.json();
-        setState(prev => ({ ...prev, ...saved }));
+        setState(s => ({ ...s, ...saved }));
         return true;
       }
     } catch {}
     return false;
   }, []);
 
-  const login = useCallback(async () => {
-    if (!username.trim()) return;
-    const exists = await loadFromServer(username);
+  const login = useCallback(async (name: string) => {
+    if (!name.trim()) return;
+    try {
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: name.trim() }),
+      });
+      if (!res.ok) return;
+      const { token } = await res.json();
+      localStorage.setItem('token', token);
+    } catch { return; }
+    setUsername(name.trim());
+    const exists = await loadFromServer(name.trim());
     if (!exists) {
       const fresh = createInitialState();
       setState(fresh);
-      await saveToServer(fresh);
+      await saveToServer(fresh, name.trim());
     }
-  }, [username, loadFromServer, saveToServer]);
+  }, [loadFromServer, saveToServer]);
 
-  const updateState = useCallback((updater: (prev: GameState) => GameState) => {
-    setState(prev => {
-      const next = updater(prev);
-      return next;
-    });
+  const logout = useCallback(() => {
+    localStorage.removeItem('token');
+    setUsername('');
+    setState(createInitialState());
   }, []);
 
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) { setInitialized(true); return; }
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const name = payload.username;
+      if (!name) { setInitialized(true); return; }
+      setUsername(name);
+      loadFromServer(name).finally(() => setInitialized(true));
+    } catch {
+      localStorage.removeItem('token');
+      setInitialized(true);
+    }
+  }, [loadFromServer]);
+
   const flushSave = useCallback(() => {
-    saveToServer(stateRef.current);
+    const name = usernameRef.current;
+    if (!name) return;
+    saveToServer(stateRef.current, name);
   }, [saveToServer]);
 
   useEffect(() => {
@@ -199,13 +230,15 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
   const hardResetHandler = useCallback(() => {
     if (!confirm('Delete ALL progress?')) return;
+    const name = usernameRef.current;
+    if (!name) return;
     fetch('/api/save', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, state: null }),
-    });
+      body: JSON.stringify({ username: name, state: null }),
+    }).catch(() => {});
     setState(createInitialState());
-  }, [username]);
+  }, []);
 
   const addVisualCursor = useCallback(() => {}, []);
   const rebuildVisualCursors = useCallback(() => {}, []);
@@ -218,8 +251,9 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     <GameContext.Provider value={{
       state,
       username,
-      setUsername,
+      loading: !initialized,
       login,
+      logout,
       clickCookie,
       buyBuilding: buyBuildingHandler,
       buyClickUpgrade: buyClickUpgradeHandler,

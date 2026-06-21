@@ -7,12 +7,17 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 
   const { username, state } = req.body;
-  if (!username || !state) {
-    return res.status(400).json({ error: 'Missing username or state' });
+  if (!username) {
+    return res.status(400).json({ error: 'Missing username' });
   }
 
   try {
-    saveGame(username, JSON.stringify(state));
+    if (state === null) {
+      const { deleteSave } = require('../../lib/db');
+      deleteSave(username);
+    } else {
+      saveGame(username, JSON.stringify(state));
+    }
     return res.status(200).json({ ok: true });
   } catch (e) {
     return res.status(500).json({ error: 'Save failed' });

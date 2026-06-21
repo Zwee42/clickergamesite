@@ -38,3 +38,7 @@ export function usernameExists(username: string): boolean {
   const row = getDb().prepare('SELECT 1 FROM saves WHERE username = ?').get(username);
   return !!row;
 }
+
+export function deleteSave(username: string): void {
+  getDb().prepare('DELETE FROM saves WHERE username = ?').run(username);
+}

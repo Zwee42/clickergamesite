@@ -1,7 +1,7 @@
 import { useGame } from '../lib/gameContext';
 
 export default function Settings() {
-  const { state, toggleSound, hardReset } = useGame();
+  const { state, toggleSound, hardReset, logout } = useGame();
 
   return (
     <>
@@ -12,6 +12,9 @@ export default function Settings() {
         </button>
         <button className="upgrade-btn upgrade-btn--small upgrade-btn--danger" onClick={hardReset}>
           Hard Reset
+        </button>
+        <button className="upgrade-btn upgrade-btn--small" onClick={logout}>
+          Log Out
         </button>
       </div>
     </>

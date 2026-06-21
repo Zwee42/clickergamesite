@@ -28,10 +28,7 @@ export default function Shop() {
           const bulk = calcBulkPurchase(state, b.id);
           const effectiveCps = upg.cps * getBuildingMultiplier(state, b.id);
 
-          let costText = `cost: ${formatNumber(upg.cost)}`;
-          if (state.buyMode !== 0 && bulk.bought > 1) {
-            costText += ` &times;${bulk.bought} = <b>${formatNumber(bulk.totalCost)}</b>`;
-          }
+          const showBulk = state.buyMode !== 0 && bulk.bought > 1;
 
           return (
             <button
@@ -43,7 +40,9 @@ export default function Shop() {
             >
               <img className="upgrade-icon" src={upgradeIcons[b.id]} alt={b.label} />
               <div>
-                {b.label} ({costText})<br />
+                {b.label} (cost: {formatNumber(upg.cost)}
+                {showBulk ? <> &times;{bulk.bought} = <b>{formatNumber(bulk.totalCost)}</b></> : ''}
+                )<br />
                 <small>+{formatNumber(effectiveCps)} cookie/sec</small><br />
                 Owned: {upg.owned}
               </div>
